@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shisan.mapper.CustomerMapper">
+    <resultMap id="customerMap" type="com.shisan.entity.Customer">
+        <id column="cid" property="id"></id>
+        <result column="cname" property="name"></result>
+
+        <collection property="goods" ofType="com.shisan.entity.Goods">
+            <id column="gid" property="id"></id>
+            <result column="gname" property="name"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findById" resultMap="customerMap">
+        select c.id, c.name cname, g.name gname
+        from customer c,
+             goods g,
+             menu m
+        where c.id = #{id}
+          and m.cid = c.id
+          and m.gid = g.id;
+    </select>
+</mapper>
